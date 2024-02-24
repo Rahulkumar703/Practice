@@ -7,7 +7,7 @@ export const GET = async () => {
 
         connect();
 
-        const problems = await Problem.find({});
+        const problems = await Problem.find({}).sort({ 'updated_at': 'desc' }).select('-solutions');
 
         return NextResponse.json({ problems, type: "success" }, { status: 200 })
 

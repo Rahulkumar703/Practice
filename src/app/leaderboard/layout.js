@@ -1,7 +1,7 @@
 
 export const metadata = {
-    title: "Dashboard",
-    description: "Track your progress and practice problems.",
+    title: "Leaderboard",
+    description: "See where you stand among your peers.",
 };
 
 const DashboardLayout = ({ children }) => {

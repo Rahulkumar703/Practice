@@ -20,7 +20,7 @@ import LoadingButton from '@/components/Button'
 import { useState } from 'react'
 import Link from 'next/link'
 import { Label } from "@/components/ui/label"
-import { Key, Mail, UserRound } from 'lucide-react'
+import { ChevronDown, ChevronRight, Key, LogIn, LogOut, Mail, Plus, UserRound } from 'lucide-react'
 import { Button } from './ui/button'
 
 const LoginForm = () => {
@@ -35,13 +35,16 @@ const LoginForm = () => {
             <section className="mx-auto max-w-5xl w-full flex flex-col">
 
                 <DrawerHeader>
-                    <DrawerTitle className="capitalize">Hi, {data?.user.name}</DrawerTitle>
-                    <DrawerDescription>You are logged in with <span className="font-semibold">{data?.user.email}</span></DrawerDescription>
-                    <DrawerDescription>Are you sure want to logout?</DrawerDescription>
+                    <DrawerTitle className="capitalize">Hi, <span className='text-primary'>{data?.user.name}</span></DrawerTitle>
+                    <DrawerDescription>You are logged in with <span className="font-light text-primary">{data?.user.email}</span></DrawerDescription>
+                    <DrawerDescription>Are you sure want to <span className='text-destructive'>logout</span> ?</DrawerDescription>
                 </DrawerHeader>
                 <DrawerFooter className={'flex-row-reverse justify-between'}>
                     <DrawerClose asChild>
-                        <Button type="button" onClick={signOut}>Logout</Button>
+                        <Button type="button" variant='destructive' onClick={signOut}>
+                            Yes
+                            <ChevronRight className="h-4 w-4 ml-2" />
+                        </Button>
                     </DrawerClose>
                 </DrawerFooter>
             </section>
@@ -149,21 +152,27 @@ const Login = () => {
                                 </FormItem>
                             )}
                         />
-                        <Button asChild variant="link" className="ml-auto text-blue-600">
+                        <Button asChild variant="link" className="ml-auto text-red-400">
                             <Link href="/forgot-password">Forgot Password ?</Link>
                         </Button>
                     </div>
                     <section className='flex gap-2 items-center'>
                         <Label htmlFor="terms">Don't have an account ?</Label>
-                        <Button type="button" variant="link" className=" text-blue-600" onClick={() => router.replace('/?q=signup')}>
+                        <Button type="button" variant="link" className=" text-red-400" onClick={() => router.replace('/?q=signup')}>
                             Signup
                         </Button>
                     </section>
                 </div>
                 <DrawerFooter className={'flex-row-reverse justify-between'}>
-                    <LoadingButton type="submit" disabled={loading}>Login</LoadingButton>
+                    <LoadingButton type="submit" disabled={loading}>
+                        <LogIn className="h-4 w-4 mr-2" />
+                        Login
+                    </LoadingButton>
                     <DrawerClose asChild>
-                        <Button type="reset" onClick={() => router.replace('/')} variant="outline" disabled={loading}>Cancel</Button>
+                        <Button type="reset" onClick={() => router.replace('/')} variant="outline" disabled={loading}>
+                            <ChevronDown className="h-4 w-4 mr-2" />
+                            Cancel
+                        </Button>
                     </DrawerClose>
                 </DrawerFooter>
             </form>
@@ -215,7 +224,7 @@ const Signup = () => {
     async function onSubmit(values) {
         try {
             setLoading(true);
-            const resp = await fetch('/api/user', {
+            const resp = await fetch('/api/signup', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -324,15 +333,21 @@ const Signup = () => {
                     />
                     <section className='flex gap-2 items-center'>
                         <Label htmlFor="terms">Already have an account ?</Label>
-                        <Button type="button" variant="link" className=" text-blue-600" onClick={() => router.replace('/')}>
+                        <Button type="button" variant="link" className=" text-red-400" onClick={() => router.replace('/')}>
                             Login
                         </Button>
                     </section>
                 </div>
                 <DrawerFooter className={'flex-row-reverse justify-between'}>
-                    <LoadingButton type="submit" disabled={loading}>Create Account</LoadingButton>
+                    <LoadingButton type="submit" disabled={loading}>
+                        <Plus className="h-4 w-4 mr-2" />
+                        Create Account
+                    </LoadingButton>
                     <DrawerClose asChild>
-                        <Button type="reset" onClick={() => router.replace('/')} variant="outline" disabled={loading}>Cancel</Button>
+                        <Button type="reset" onClick={() => router.replace('/')} variant="outline" disabled={loading}>
+                            <ChevronDown className="h-4 w-4 mr-2" />
+                            Cancel
+                        </Button>
                     </DrawerClose>
                 </DrawerFooter>
             </form>

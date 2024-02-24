@@ -43,8 +43,8 @@ const UserSchema = new mongoose.Schema({
                     code: String,
                     language: {
                         type: String,
-                        enum: ["C++", "Java", "Python", "Javascript"],
-                        default: "C++"
+                        enum: ["cpp", "java", "python", "Javascript"],
+                        default: "cpp"
                     },
                     notes: [String]
                 }

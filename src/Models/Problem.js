@@ -29,6 +29,10 @@ const ProblemSchema = new mongoose.Schema({
         lowercase: true,
         trim: true
     }],
+    link: {
+        type: Number,
+        trim: true
+    },
     difficulty: {
         type: String,
         enum: ['easy', 'medium', 'hard'],
@@ -42,8 +46,8 @@ const ProblemSchema = new mongoose.Schema({
                 code: String,
                 language: {
                     type: String,
-                    enum: ["C++", "Java", "Python", "Javascript"],
-                    default: "C++",
+                    enum: ["cpp", "java", "python", "javascript"],
+                    default: "cpp",
                     lowercase: true,
                     trim: true
                 },

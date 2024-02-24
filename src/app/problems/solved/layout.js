@@ -1,7 +1,7 @@
 
 export const metadata = {
-    title: "Practice Problems",
-    description: "All important problems to practice for interviews and competitive programming.",
+    title: "Solved Problems",
+    description: "All problems that I have solved till now.",
 };
 
 const ProblemsLayout = ({ children }) => {

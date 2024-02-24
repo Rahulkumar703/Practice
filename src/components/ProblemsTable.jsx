@@ -30,6 +30,8 @@ import {
     TableRow,
 } from "@/components/ui/table"
 import { useState } from "react"
+import { toast } from "sonner"
+import { Badge } from "./ui/badge"
 
 
 export const columns = [
@@ -61,6 +63,7 @@ export const columns = [
             return (
                 <Button
                     variant="ghost"
+                    className="px-2"
                     onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
                 >
                     Week
@@ -86,7 +89,7 @@ export const columns = [
             )
         },
         cell: ({ row }) => (
-            <div className="capitalize">{row.getValue("title")}</div>
+            <div className="capitalize font-semibold">{row.getValue("title")}</div>
         ),
     },
     {
@@ -102,9 +105,18 @@ export const columns = [
                 </Button>
             )
         },
-        cell: ({ row }) => (
-            <div className="capitalize">{row.getValue("topics")}</div>
-        ),
+        cell: ({ row }) => {
+            const topics = row.getValue("topics")
+            return <div className="capitalize">{
+                topics.map((topic, index) => {
+                    return (
+                        <Badge variant="secondary" key={index}>
+                            {topic}
+                        </Badge>
+                    )
+                })
+            }</div>
+        },
     },
     {
         accessorKey: "difficulty",
@@ -121,7 +133,10 @@ export const columns = [
         },
         cell: ({ row }) => {
             const diff = row.getValue("difficulty")
-            return <div className={`capitalize font-semibold ${diff === 'easy' ? 'text-green-300' : diff === 'medium' ? 'text-blue-300' : 'text-red-300'}`}>{diff}</div>
+
+            return <Badge variant="default" className={`capitalize ${diff === 'easy' ? 'bg-green-300 hover:bg-green-300/90' : diff === 'medium' ? 'bg-blue-300 hover:bg-blue-300/90' : 'bg-red-300 hover:bg-red-300/90'} text-black ml-auto`}>
+                {diff}
+            </Badge>
         },
     },
     {
@@ -129,6 +144,21 @@ export const columns = [
         enableHiding: false,
         cell: ({ row }) => {
             const problem = row.original
+
+            const deleteProblem = async () => {
+                try {
+                    const res = await fetch(`/api/problem/${problem.title}`, {
+                        method: 'DELETE',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }
+                    })
+                    const data = await res.json();
+                    toast[data.type](data.message);
+                } catch (error) {
+                    toast.error(error.message);
+                }
+            }
 
             return (
                 <DropdownMenu>
@@ -146,7 +176,7 @@ export const columns = [
                             Copy Problem ID
                         </DropdownMenuItem>
                         <DropdownMenuItem>Edit</DropdownMenuItem>
-                        <DropdownMenuItem>Delete</DropdownMenuItem>
+                        <DropdownMenuItem onClick={deleteProblem}>Delete</DropdownMenuItem>
                         <DropdownMenuSeparator />
                         <DropdownMenuItem>Add Solutions</DropdownMenuItem>
                     </DropdownMenuContent>
@@ -181,6 +211,7 @@ export function ProblemsTable({ data }) {
             rowSelection,
         },
     })
+
 
     return (
         <div className="w-full">
@@ -227,7 +258,7 @@ export function ProblemsTable({ data }) {
                             <TableRow key={headerGroup.id}>
                                 {headerGroup.headers.map((header) => {
                                     return (
-                                        <TableHead key={header.id}>
+                                        <TableHead key={header.id} className={`${header.id.includes('week') ? 'w-20' : ''}`}>
                                             {header.isPlaceholder
                                                 ? null
                                                 : flexRender(
@@ -248,7 +279,8 @@ export function ProblemsTable({ data }) {
                                     data-state={row.getIsSelected() && "selected"}
                                 >
                                     {row.getVisibleCells().map((cell) => (
-                                        <TableCell key={cell.id}>
+                                        <TableCell key={cell.id}  >
+                                            {console.log()}
                                             {flexRender(
                                                 cell.column.columnDef.cell,
                                                 cell.getContext()

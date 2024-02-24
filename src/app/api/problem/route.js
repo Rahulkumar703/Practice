@@ -9,7 +9,7 @@ export const POST = async (req) => {
 
         const reqBody = await req.json();
 
-        const { title, statement, difficulty, week, companies, topics } = reqBody;
+        const { title, statement, difficulty, week, companies, topics, link } = reqBody;
 
         if (!title || !statement || !difficulty || !week || !topics) {
             return NextResponse.json({ message: "All fields are required", type: "error" }, { status: 400 })
@@ -20,7 +20,7 @@ export const POST = async (req) => {
             return NextResponse.json({ message: "Problem already exists in matrix", type: "info" }, { status: 403 })
         }
 
-        await Problem.create({ title, statement, difficulty, week, companies, topics });
+        await Problem.create({ title, statement, difficulty, week, companies, topics, link });
 
         return NextResponse.json({ message: "Problem added Successfully.", type: "success" }, { status: 200 })
     } catch (error) {

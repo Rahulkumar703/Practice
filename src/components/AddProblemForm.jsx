@@ -12,8 +12,10 @@ import { DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHead
 import { Button } from './ui/button';
 import { toast } from 'sonner';
 import { revalidateTag } from 'next/cache';
+import { Badge } from './ui/badge';
+import { Send, SendHorizonal, X } from 'lucide-react';
 
-const ProblemsForm = () => {
+const AddProblemForm = () => {
     const [loading, setLoading] = useState(false);
 
     const loginFormSchema = z.object({
@@ -34,6 +36,9 @@ const ProblemsForm = () => {
         topics: z.string().min(3, {
             message: "Topic name should have atleast 3 characters",
         }),
+        link: z.string().min(3, {
+            message: "link should have atleast 3 characters",
+        }),
     })
 
 
@@ -46,6 +51,7 @@ const ProblemsForm = () => {
             week: "",
             companies: "N/A",
             topics: "",
+            link: "N/A",
         },
     })
 
@@ -61,14 +67,12 @@ const ProblemsForm = () => {
                 body: JSON.stringify(values),
 
             })
-
-            if (res.ok) revalidateTag('fetchProblems');
-
             const data = await res.json();
 
             toast[data.type](data.message)
 
         } catch (error) {
+            console.log(error);
             toast.error(error.message)
         }
         finally {
@@ -105,7 +109,7 @@ const ProblemsForm = () => {
                                     <FormItem>
                                         <FormLabel className="font-semibold flex gap-2 items-center">Problem Statement</FormLabel>
                                         <FormControl>
-                                            <Textarea
+                                            <Textarea className="resize-none"
                                                 disabled={loading} {...field} />
                                         </FormControl>
                                         <FormMessage />
@@ -130,25 +134,31 @@ const ProblemsForm = () => {
                                                     <FormControl>
                                                         <RadioGroupItem value="easy" />
                                                     </FormControl>
-                                                    <FormLabel className="flex gap-2 items-center text-green-300 font-semibold">
-                                                        Easy
-                                                    </FormLabel>
+                                                    <Badge variant="default" className={`capitalize bg-green-300 font-semibold hover:bg-green-300/90 text-black ml-auto`}>
+                                                        <FormLabel>
+                                                            Easy
+                                                        </FormLabel>
+                                                    </Badge>
                                                 </FormItem>
                                                 <FormItem className="flex items-center space-x-3 space-y-0">
                                                     <FormControl>
                                                         <RadioGroupItem value="medium" />
                                                     </FormControl>
-                                                    <FormLabel className="flex gap-2 items-center text-blue-300 font-semibold">
-                                                        Medium
-                                                    </FormLabel>
+                                                    <Badge variant="default" className={`capitalize bg-blue-300 font-semibold hover:bg-blue-300/90 text-black ml-auto`}>
+                                                        <FormLabel>
+                                                            Medium
+                                                        </FormLabel>
+                                                    </Badge>
                                                 </FormItem>
                                                 <FormItem className="flex items-center space-x-3 space-y-0">
                                                     <FormControl>
                                                         <RadioGroupItem value="hard" />
                                                     </FormControl>
-                                                    <FormLabel className="flex gap-2 items-center text-red-300 font-semibold">
-                                                        Hard
-                                                    </FormLabel>
+                                                    <Badge variant="default" className={`capitalize bg-red-300 font-semibold hover:bg-red-300/90 text-black ml-auto`}>
+                                                        <FormLabel>
+                                                            Hard
+                                                        </FormLabel>
+                                                    </Badge>
                                                 </FormItem>
                                             </RadioGroup>
                                         </FormControl>
@@ -203,13 +213,33 @@ const ProblemsForm = () => {
                                 )}
                             />
                         </div>
+                        <div className="flex flex-col gap-4">
+                            <FormField
+                                control={loginForm.control}
+                                name="link"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel className="font-semibold flex gap-2 items-center">Problem Link</FormLabel>
+                                        <FormControl>
+                                            <Input type="text"
+                                                disabled={loading} {...field} />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                        </div>
                         <DialogFooter className="sm:justify-start gap-2">
                             <DialogClose asChild>
                                 <Button type="button" variant="secondary">
+                                    <X className="w-4 h-4 mr-2" />
                                     Close
                                 </Button>
                             </DialogClose>
-                            <LoadingButton disabled={loading} className="flex-1">Submit</LoadingButton>
+                            <LoadingButton disabled={loading} className="flex-1">
+                                Submit
+                                <SendHorizonal className="w-4 h-4 ml-2" />
+                            </LoadingButton>
                         </DialogFooter>
                     </div>
                 </form>
@@ -219,4 +249,4 @@ const ProblemsForm = () => {
     )
 }
 
-export default ProblemsForm
+export default AddProblemForm
