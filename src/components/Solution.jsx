@@ -24,7 +24,7 @@ import {
 } from "@/components/ui/alert-dialog"
 import LoadingButton from "./Button";
 import { useSession } from "next-auth/react";
-import { Editor, useMonaco } from "@monaco-editor/react";
+import { Editor } from "@monaco-editor/react";
 import { useRouter } from "next/navigation";
 
 
@@ -208,6 +208,9 @@ const Solution = ({ userSolutions, isSolved, problemId }) => {
             <div className="flex justify-between items-center">
                 <h2 className="text-xl font-semibold">Your code.</h2>
                 <div className="flex gap-2 items-center">
+                    {
+
+                    }
                     {
                         code !== userSolutions[0]?.code
                             ?

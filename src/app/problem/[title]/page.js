@@ -2,9 +2,15 @@ import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import Solution from "@/components/Solution";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { Lock } from "lucide-react";
+import { ArrowUpRightFromSquare, Lock } from "lucide-react";
 import { getServerSession } from "next-auth";
 import { notFound } from "next/navigation";
+import {
+    Tooltip,
+    TooltipContent,
+    TooltipProvider,
+    TooltipTrigger,
+} from "@/components/ui/tooltip"
 
 const getProblemAndUserSolution = async (title) => {
     'use server'
@@ -35,7 +41,22 @@ const page = async ({ params }) => {
         data && data?.problem ?
             <Card>
                 <CardHeader>
-                    <CardTitle className="capitalize">{data?.problem?.title}</CardTitle>
+                    <CardTitle >
+                        <TooltipProvider>
+                            <Tooltip>
+                                <TooltipTrigger>
+                                    <a href={data?.problem?.link} target="_blank" className="flex items-center capitalize">
+                                        {data?.problem?.title}
+                                        <ArrowUpRightFromSquare className="w-4 h-4 ml-2 font-bold" />
+                                    </a>
+                                </TooltipTrigger>
+                                <TooltipContent>
+                                    <p>Code on external website</p>
+                                </TooltipContent>
+                            </Tooltip>
+                        </TooltipProvider>
+
+                    </CardTitle>
                     <CardDescription className="capitalize flex justify-between gap-2">
                         {
                             data?.problem?.topics.map((topic, index) => {

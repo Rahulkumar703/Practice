@@ -30,7 +30,7 @@ const ProblemSchema = new mongoose.Schema({
         trim: true
     }],
     link: {
-        type: Number,
+        type: String,
         trim: true
     },
     difficulty: {

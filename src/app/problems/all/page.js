@@ -2,8 +2,9 @@ import { getServerSession } from "next-auth";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
-import { CalendarDays, CheckCheck, CheckCircle, XCircle } from "lucide-react";
+import { ArrowUpRightFromSquare, CalendarDays, CheckCheck, CheckCircle, Code2, XCircle } from "lucide-react";
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
+import { Button } from "@/components/ui/button";
 
 const getProblems = async () => {
     'use server'
@@ -102,11 +103,17 @@ const ProblemsPage = async () => {
                                                     {/* <CardContent>
                                                     {problem.statement}
                                                 </CardContent> */}
-                                                    {/* <CardFooter className="flex items-center justify-between mt-auto">
-                                                        <Badge variant="outline" className={'py-1 px-4'}>
+                                                    <CardFooter className="flex items-center justify-between mt-auto">
+                                                        {/* <Badge variant="outline" className={'py-1 px-4'}>
                                                             Week {problem.week}
-                                                        </Badge>
-                                                    </CardFooter> */}
+                                                        </Badge> */}
+                                                        <Button variant="link" className={'ml-auto py-1 px-4 flex items-center'}>
+                                                            <a href={problem.link} className="flex items-center">
+                                                                Solve Problem
+                                                            </a>
+                                                            <ArrowUpRightFromSquare className="w-3 h-3 ml-2" />
+                                                        </Button>
+                                                    </CardFooter>
                                                 </Card>
                                             </Link>
                                         )

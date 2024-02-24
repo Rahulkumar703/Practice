@@ -2,8 +2,8 @@
 
 export async function generateMetadata({ params }) {
     return {
-        title: params.title,
-        description: `solve the problem ${params.title}`,
+        title: decodeURI(params.title),
+        description: `solve the problem ${decodeURI(params.title)}`,
     };
 }
 
