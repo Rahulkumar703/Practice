@@ -13,7 +13,7 @@ const getProblems = async () => {
     if (session?.user && session?.user.role === 'admin')
         try {
             const res = await fetch(`${process.env.NEXTAUTH_URL}/api/problems/`, {
-                cache: 'no-cache'
+                cache: 'no-store'
             })
             if (res.ok) {
                 return await res.json();

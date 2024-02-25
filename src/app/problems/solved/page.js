@@ -2,7 +2,7 @@ import { getServerSession } from "next-auth";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
-import { CalendarDays, CheckCircle, XCircle } from "lucide-react";
+import { ArrowUpRightFromSquare, CalendarDays } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 
@@ -12,7 +12,7 @@ const getUserProblems = async () => {
     if (session?.user)
         try {
             const res = await fetch(`${process.env.NEXTAUTH_URL}/api/user/${session?.user?.id}`, {
-                cache: 'no-cache',
+                cache: 'no-store',
             })
             if (res.ok) {
                 const data = await res.json();
@@ -85,8 +85,8 @@ const ProblemsPage = async () => {
                                                                 null
                                                         }
                                                     </CardContent>
-                                                    {/* <CardFooter className="flex items-center justify-between mt-auto">
-                                                        {
+                                                    <CardFooter className="flex items-center justify-between mt-auto">
+                                                        {/* {
                                                             isSolved ?
                                                                 <Button variant="default" className="bg-blue-500 hover:bg-blue-500/90">
                                                                     <CheckCircle />
@@ -95,11 +95,23 @@ const ProblemsPage = async () => {
                                                                 <Button variant="destructive">
                                                                     <XCircle />
                                                                 </Button>
-                                                        }
-                                                        <Badge variant="outline" className={'py-1 px-4'}>
+                                                        } */}
+                                                        {/* <Badge variant="outline" className={'py-1 px-4'}>
                                                             Week {problem?.problemId.week}
-                                                        </Badge>
-                                                    </CardFooter> */}
+                                                        </Badge> */}
+
+                                                        {
+                                                            problem?.problemId?.link !== 'N/A' ?
+                                                                <Button variant="link" className={'ml-auto py-1 px-4 flex items-center'}>
+                                                                    <a href={problem?.problemId?.link} className="flex items-center">
+                                                                        Go to Problem
+                                                                    </a>
+                                                                    <ArrowUpRightFromSquare className="w-3 h-3 ml-2" />
+                                                                </Button>
+                                                                :
+                                                                null
+                                                        }
+                                                    </CardFooter>
                                                 </Card>
                                             </Link>
                                         )

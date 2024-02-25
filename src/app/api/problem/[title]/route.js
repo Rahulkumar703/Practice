@@ -1,7 +1,7 @@
 import Problem from "@/Models/Problem";
 import User from "@/Models/User";
 import { connect } from "@/lib/DB"
-import mongoose, { mongo } from "mongoose";
+import mongoose from "mongoose";
 import { NextResponse } from "next/server";
 
 export const GET = async (req, { params }) => {

@@ -27,7 +27,7 @@ const getDashboardInfo = async () => {
     if (session?.user)
         try {
             const res = await fetch(`${process.env.NEXTAUTH_URL}/api/user/${session?.user?.id}/dashboard`, {
-                cache: 'no-cache'
+                cache: 'no-store'
             })
             if (res.ok)
                 return await res.json();

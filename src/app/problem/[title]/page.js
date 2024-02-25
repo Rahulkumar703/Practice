@@ -19,7 +19,7 @@ const getProblemAndUserSolution = async (title) => {
     // if (session?.user)
     try {
         const res = await fetch(`${process.env.NEXTAUTH_URL}/api/problem/${title}${session?.user ? `?user=${session?.user.id}` : ''}`, {
-            cache: 'no-cache',
+            cache: 'no-store',
         })
         if (res.ok)
             return await res.json();

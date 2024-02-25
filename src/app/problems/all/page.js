@@ -13,7 +13,7 @@ const getProblems = async () => {
     // if (session?.user)
     try {
         const res = await fetch(`${process.env.NEXTAUTH_URL}/api/problems`, {
-            cache: 'no-cache',
+            cache: 'no-store',
         })
         if (res.ok)
             return await res.json();
@@ -30,12 +30,10 @@ const getUserProblems = async () => {
     if (session?.user)
         try {
             const res = await fetch(`${process.env.NEXTAUTH_URL}/api/user/${session?.user?.id}`, {
-                cache: 'no-cache',
+                cache: 'no-store',
             })
-            if (res.ok) {
-                const data = await res.json();
-                return data
-            }
+            if (res.ok)
+                return await res.json();
         } catch (error) {
             throw new Error(error.message)
         }
@@ -55,7 +53,6 @@ const ProblemsPage = async () => {
         return acc;
     }, {});
 
-
     return (
         <div className="flex flex-col gap-10">
             {
@@ -74,7 +71,7 @@ const ProblemsPage = async () => {
                                         })
                                         return (
                                             <Link key={problem?._id} href={`/problem/${problem.title}`} className="h-full capitalize ">
-                                                <Card className="h-full border hover:shadow-xl transition-shadow">
+                                                <Card className="h-full border hover:shadow-xl transition-shadow flex flex-col">
                                                     <CardHeader className="flex flex-row items-center gap-2">
                                                         {
                                                             isSolved ?
@@ -107,12 +104,17 @@ const ProblemsPage = async () => {
                                                         {/* <Badge variant="outline" className={'py-1 px-4'}>
                                                             Week {problem.week}
                                                         </Badge> */}
-                                                        <Button variant="link" className={'ml-auto py-1 px-4 flex items-center'}>
-                                                            <a href={problem.link} className="flex items-center">
-                                                                Solve Problem
-                                                            </a>
-                                                            <ArrowUpRightFromSquare className="w-3 h-3 ml-2" />
-                                                        </Button>
+                                                        {
+                                                            problem.link !== 'N/A' ?
+                                                                <Button variant="link" className={'ml-auto py-1 px-4 flex items-center'}>
+                                                                    <a href={problem.link} className="flex items-center">
+                                                                        Solve Problem
+                                                                    </a>
+                                                                    <ArrowUpRightFromSquare className="w-3 h-3 ml-2" />
+                                                                </Button>
+                                                                :
+                                                                null
+                                                        }
                                                     </CardFooter>
                                                 </Card>
                                             </Link>
